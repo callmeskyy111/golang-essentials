@@ -523,309 +523,25 @@ This covers all the **Go commands** in detail.
 - ./main (.exe file)
 - 💡 Soln. - go run 1_hello_world/main.go
 
-### All the basic data types in Go (Golang) 💻
-
-## ✅ 1. **Boolean Type (`bool`)**
-
-* Represents a truth value: `true` or `false`
-* Default value: `false`
-
-```go
-var isActive bool = true
-var isLoggedIn = false // inferred type
-```
-
-> Use in logical expressions, conditions, or control flow (e.g., `if`, `for`).
+In **Go (Golang)**, a **package** is a way to organize and reuse code. Every Go program is made up of **packages**. They help break up the program into manageable, modular parts — similar to modules or libraries in other languages.
 
 ---
 
-## ✅ 2. **Numeric Types**
+## 🧩 What Is a Package?
 
-### A. **Integer Types**
+A **package** in Go is:
 
-Go supports both **signed** and **unsigned** integers.
-
-#### 🔹 Signed Integers:
-
-| Type    | Size                                      | Range                           |
-| ------- | ----------------------------------------- | ------------------------------- |
-| `int8`  | 8-bit                                     | -128 to 127                     |
-| `int16` | 16-bit                                    | -32,768 to 32,767               |
-| `int32` | 32-bit                                    | -2,147,483,648 to 2,147,483,647 |
-| `int64` | 64-bit                                    | ±9.22×10^18                     |
-| `int`   | 32 or 64-bit (depends on OS/architecture) |                                 |
-
-#### 🔹 Unsigned Integers:
-
-| Type     | Size                      | Range                     |
-| -------- | ------------------------- | ------------------------- |
-| `uint8`  | 8-bit                     | 0 to 255                  |
-| `uint16` | 16-bit                    | 0 to 65,535               |
-| `uint32` | 32-bit                    | 0 to 4,294,967,295        |
-| `uint64` | 64-bit                    | 0 to 18,446,744,073×10^18 |
-| `uint`   | 32 or 64-bit (like `int`) |                           |
-
-#### Example:
-
-```go
-var a int8 = -100
-var b uint16 = 65000
-```
-
-> ⚠️ Always choose the smallest type that fits your range to optimize memory.
+* A collection of related Go source files in the same directory.
+* Each file in that directory must declare the **same package name**.
+* One special package is `main`, which is used to build **executable programs**.
 
 ---
 
-### B. **Floating Point Types**
+## 📦 Two Types of Packages
 
-Used for **decimal or real numbers**.
+### ✅ 1. **Executable Package (`main`)**
 
-| Type      | Size   | Precision           |
-| --------- | ------ | ------------------- |
-| `float32` | 32-bit | \~6 decimal places  |
-| `float64` | 64-bit | \~15 decimal places |
-
-#### Example:
-
-```go
-var pi float64 = 3.14159265358979
-var price float32 = 19.99
-```
-
-> Use `float64` by default for better precision.
-
----
-
-### C. **Complex Numbers**
-
-Go supports complex numbers with real and imaginary parts.
-
-| Type         | Description                      |
-| ------------ | -------------------------------- |
-| `complex64`  | float32 real and imaginary parts |
-| `complex128` | float64 real and imaginary parts |
-
-#### Example:
-
-```go
-var c1 complex64 = 1 + 2i
-var c2 = complex(5.5, 3.3) // real: 5.5, imag: 3.3
-```
-
-> Rarely used, but handy in scientific computing.
-
----
-
-## ✅ 3. **String Type**
-
-A **string** is a sequence of bytes (UTF-8 encoded characters).
-
-* Immutable
-* Can be indexed and sliced
-
-```go
-var name string = "Skyy"
-var greeting = "Hello, " + name
-```
-
-#### String Operations:
-
-```go
-fmt.Println(len(name))      // Length
-fmt.Println(name[0])        // First byte
-fmt.Println(name[0:2])      // Slice "Sk"
-```
-
-> Strings are byte-based; to work with Unicode characters (like emojis), use `rune`.
-
----
-
-## ✅ 4. **Rune Type (`rune`)**
-
-* Alias for `int32`
-* Represents a **Unicode code point**
-* Useful for **multibyte characters**
-
-```go
-var ch rune = 'あ' // Japanese character
-fmt.Println(ch)     // Unicode point
-```
-
-> Runes allow working with characters, not just bytes.
-
----
-
-## ✅ 5. **Byte Type (`byte`)**
-
-* Alias for `uint8`
-* Used for raw binary data or ASCII characters
-
-```go
-var b byte = 'A'
-```
-
-> Often used in file I/O, buffers, and byte slices (`[]byte`).
-
----
-
-## 🧠 Type Inference
-
-Go uses type inference with `:=`:
-
-```go
-age := 30           // inferred as int
-pi := 3.14          // inferred as float64
-flag := true        // inferred as bool
-```
-
----
-
-## 🗂 Default Zero Values
-
-| Type      | Default Value |
-| --------- | ------------- |
-| `bool`    | `false`       |
-| `int`     | `0`           |
-| `float64` | `0.0`         |
-| `string`  | `""` (empty)  |
-| `pointer` | `nil`         |
-
----
-
-## ⚙️ Best Practices
-
-* Use `int` unless a specific size is required (e.g., for network data).
-* Use `float64` for decimals unless performance/memory optimization is critical.
-* Use `string` for text, `[]byte` for binary data.
-* Use type aliases like `byte` and `rune` when appropriate for clarity.
-
-
-
----
-
-## 🔹 What is a Variable in Go? 📦
-
-A **variable** is a named storage that holds a value. Every variable in Go has:
-
-* A **name**
-* A **type**
-* And optionally, a **value**
-
-Go is a **statically typed** language, which means the type of a variable is known at compile-time.
-
----
-
-## 🔹 Declaring Variables
-
-There are **3 primary ways** to declare variables in Go:
-
----
-
-### **1. Using `var` keyword (explicit type)**
-
-```go
-var name string
-name = "Skyy"
-```
-
-* Here, `name` is a variable of type `string`.
-* You can assign a value later.
-
----
-
-### **2. Using `var` with initialization (type inferred)**
-
-```go
-var age = 29
-```
-
-* The type (`int`) is inferred from the assigned value.
-
----
-
-### **3. Short declaration with `:=` (only inside functions)**
-
-```go
-city := "Kolkata"
-```
-
-* This is the most commonly used method inside functions.
-* Go infers the type automatically.
-* **Cannot** be used outside functions (like at the package level).
-
----
-
-## 🔹 Multiple Variable Declarations
-
-```go
-var x, y, z int = 1, 2, 3
-```
-
-or
-
-```go
-name, age := "Skyy", 29
-```
-
----
-
-## 🔹 Default Zero Values
-
-If no value is assigned, Go gives a **default zero value** based on the type:
-
-| Type                                   | Zero Value |
-| -------------------------------------- | ---------- |
-| `int`                                  | `0`        |
-| `float64`                              | `0.0`      |
-| `string`                               | `""`       |
-| `bool`                                 | `false`    |
-| pointers, slices, maps, channels, etc. | `nil`      |
-
-Example:
-
-```go
-var salary int
-fmt.Println(salary) // Output: 0
-```
-
----
-
-## 🔹 Constants vs Variables
-
-Variables can change value, constants **cannot**:
-
-```go
-const pi = 3.14 // immutable
-var radius = 5  // mutable
-```
-
----
-
-## 🔹 Scope of Variables
-
-1. **Package-level** (declared outside all functions)
-2. **Function-level / Local scope**
-3. **Block-level** (inside `{}` blocks like loops, if statements)
-
----
-
-## 🔹 Best Practices
-
-* Use short variable names for small scopes, meaningful names for larger scopes.
-* Prefer `:=` inside functions for cleaner code.
-* Group related variables:
-
-```go
-var (
-  name string
-  age  int
-  city string
-)
-```
-
----
-
-## 🔹 Example Program
+Used to build programs that can run (produce a binary/executable).
 
 ```go
 package main
@@ -833,203 +549,595 @@ package main
 import "fmt"
 
 func main() {
-    var name string = "Skyy"
-    age := 29
-    var isDeveloper = true
-
-    fmt.Println("Name:", name)
-    fmt.Println("Age:", age)
-    fmt.Println("Developer:", isDeveloper)
+    fmt.Println("Hello, Go!")
 }
 ```
----
 
-Absolutely! Let's dive into **Constants in Go (Golang)** in detail. Constants are an important part of Go, especially when you want to define **fixed values** that should not change during execution.
-
----
-
-## 🔹 What Is a Constant in Go?
-
-A **constant** is a name given to a value that **cannot be changed** after it's defined.
-
-* Declared using the `const` keyword.
-* Must be assigned a **compile-time determinable value** (i.e., not from a function or user input).
-* Cannot be reassigned later.
+* Must have a `main()` function.
+* The program **starts** from the `main()` function.
+* `go run` or `go build` is used to run/compile it.
 
 ---
 
-## 🔸 Syntax of Declaring Constants
+### ✅ 2. **Library Package (non-main)**
 
-### **1. Basic Declaration**
+Used to define **reusable code**, like helper functions or tools.
 
 ```go
-const pi = 3.14
-const appName string = "Prescripto"
+package greetings
+
+import "fmt"
+
+func Hello(name string) {
+    fmt.Println("Hello,", name)
+}
 ```
 
-* Go will **infer the type** if not explicitly stated.
-* Once set, the value **cannot be changed**.
+* No `main()` function.
+* Other packages can **import** it and use its functions.
 
 ---
 
-### **2. Multiple Constants at Once**
+## 📁 Example Directory Structure
+
+```
+myproject/
+├── main.go             // uses package main
+└── utils/
+    └── mathutils.go    // uses package utils
+```
+
+### 📌 `main.go`
 
 ```go
-const (
-    appVersion = "1.0.0"
-    maxUsers   = 100
-    timeout    = 30
+package main
+
+import (
+    "fmt"
+    "myproject/utils"
 )
+
+func main() {
+    sum := utils.Add(3, 4)
+    fmt.Println("Sum is:", sum)
+}
+```
+
+### 📌 `utils/mathutils.go`
+
+```go
+package utils
+
+func Add(a int, b int) int {
+    return a + b
+}
 ```
 
 ---
 
-## 🔸 Typed vs Untyped Constants
+## 📚 Common Standard Packages
 
-### **Untyped Constant**
+Go has a rich **standard library** of packages:
 
-```go
-const x = 5
-```
-
-* No type is assigned at declaration.
-* Type is inferred **only when used**.
-
-### **Typed Constant**
-
-```go
-const y int = 5
-```
-
-* You restrict how the value is used.
-* For example, `y` is explicitly an `int`, so it cannot be used where a `float64` is expected.
+| Package    | Purpose                                   |
+| ---------- | ----------------------------------------- |
+| `fmt`      | Input/output formatting (`Println`, etc.) |
+| `math`     | Math functions (`Sqrt`, `Pow`, etc.)      |
+| `strings`  | String manipulation (`Contains`, etc.)    |
+| `time`     | Time and date handling                    |
+| `net/http` | HTTP client/server                        |
+| `os`       | OS-level operations (files, env vars)     |
 
 ---
 
-## 🔸 Valid Constant Types
-
-Only certain **basic types** can be used:
-
-* `bool`
-* `string`
-* `numeric` types: `int`, `float64`, `complex`, etc.
-
-✅ Allowed:
+## 🔗 How to Import Packages
 
 ```go
-const name = "Skyy"
-const age = 29
-const pi = 3.1415
-const isAdmin = false
+import "fmt"
 ```
 
-❌ Not Allowed:
+* Standard packages: use just the name like `fmt`, `math`, etc.
+* Local or third-party packages: specify full path like `"github.com/user/repo/pkg"`
+
+---
+
+## 🔐 Exported vs Unexported (Capitalization)
+
+* **Exported** (public) identifiers in packages **start with uppercase**.
+* **Unexported** (private) identifiers **start with lowercase**.
 
 ```go
-// const user = getUserInput() // ❌ Error: value must be known at compile time
+// Exported function (accessible from other packages)
+func Greet() {}
+
+// Unexported function (private to same package)
+func greet() {}
 ```
 
 ---
 
-## 🔸 Constant Expressions
+## 🧠 Summary
 
-Go allows **compile-time expressions**:
+| Concept          | Description                                        |
+| ---------------- | -------------------------------------------------- |
+| `package`        | Declares a file's package (top of the file)        |
+| `main` package   | Special package with the entry point for execution |
+| Import packages  | Use `import` to include other packages             |
+| Standard library | Built-in packages like `fmt`, `math`, etc.         |
+| Custom packages  | Organized in folders, imported with their path     |
+
+---
+
+In Go (Golang), the **standard library** provides a powerful set of commonly used packages that cover almost everything needed for most applications — from string manipulation to networking and HTTP servers.
+
+Here’s a detailed overview of the **most commonly used packages in Go**, organized by use-case:
+
+---
+
+## 🔤 1. **`fmt` — Formatting and Printing**
+
+Used for input/output formatting (like `console.log` or `printf`).
+
+### ✅ Common Functions:
 
 ```go
-const width, height = 100, 50
-const area = width * height // 5000
+fmt.Print("Hello")          // Print without newline
+fmt.Println("Hello")        // Print with newline
+fmt.Printf("Name: %s", name) // Format strings
+```
+
+* `Scan()`, `Scanln()`, `Scanf()` are used for **input**.
+
+---
+
+## 📐 2. **`math` — Mathematical Operations**
+
+Provides basic math functions.
+
+### ✅ Common Functions:
+
+```go
+math.Sqrt(16)       // 4
+math.Pow(2, 3)      // 8
+math.Abs(-5.5)      // 5.5
+```
+
+* Use `math/rand` for **random numbers**:
+
+```go
+rand.Intn(100)      // Random int from 0 to 99
 ```
 
 ---
 
-## 🔸 `iota` – Auto-Incrementing Constants
+## 🧵 3. **`strings` — String Manipulation**
 
-`iota` is a special identifier used to create **incrementing constants**. It's reset to 0 for each `const` block.
+For working with strings (searching, splitting, replacing, etc).
 
-### Example:
-
-```go
-const (
-    first = iota  // 0
-    second        // 1
-    third         // 2
-)
-```
-
-### Real-world example:
+### ✅ Common Functions:
 
 ```go
-const (
-    Sunday = iota
-    Monday
-    Tuesday
-    Wednesday
-    Thursday
-    Friday
-    Saturday
-)
-```
-
-You can also use expressions with `iota`:
-
-```go
-const (
-    KB = 1 << (10 * iota) // 1 KB = 1024
-    MB                   // 1 MB = 1024 * 1024
-    GB                   // ...
-)
+strings.Contains("golang", "go")   // true
+strings.ToUpper("hello")           // "HELLO"
+strings.Split("a,b,c", ",")        // ["a", "b", "c"]
+strings.Replace("hi hi", "hi", "yo", 1)  // "yo hi"
 ```
 
 ---
 
-## 🔸 Differences Between `const` and `var`
+## ⌚ 4. **`time` — Time and Date**
 
-| Feature            | `const`               | `var`                |
-| ------------------ | --------------------- | -------------------- |
-| Mutability         | Immutable (read-only) | Mutable (changeable) |
-| Value at           | Compile-time          | Runtime              |
-| Type required?     | No (optional)         | Optional             |
-| Allowed types      | Only basic types      | Any type             |
-| Can use functions? | ❌ No                  | ✅ Yes                |
+Handles time, delays, formatting, etc.
+
+### ✅ Common Functions:
+
+```go
+time.Now()                         // current time
+time.Sleep(2 * time.Second)        // pause for 2 sec
+time.Now().Format("2006-01-02")    // format date
+```
 
 ---
 
-## 🔸 Example Program
+## 🗃️ 5. **`os` — Operating System Interaction**
+
+Used to work with files, environment variables, and more.
+
+### ✅ Common Functions:
+
+```go
+os.Getenv("PATH")                     // get env var
+os.Create("file.txt")                 // create file
+os.ReadFile("file.txt")               // read file (Go 1.16+)
+os.Remove("file.txt")                 // delete file
+```
+
+---
+
+## 📁 6. **`io/ioutil` and `io` — I/O Helpers**
+
+Before Go 1.16, `ioutil` was used for reading/writing files.
+
+### ✅ Examples:
+
+```go
+ioutil.ReadFile("file.txt")
+ioutil.WriteFile("file.txt", data, 0644)
+```
+
+> Note: `ioutil` is **deprecated** after Go 1.16. Use `os` or `io` instead.
+
+---
+
+## 🌐 7. **`net/http` — Web & HTTP Server**
+
+For building APIs, making requests, and creating web servers.
+
+### ✅ Basic Web Server:
+
+```go
+http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "Hello, Web!")
+})
+http.ListenAndServe(":8080", nil)
+```
+
+### ✅ HTTP Client:
+
+```go
+resp, _ := http.Get("https://api.github.com")
+body, _ := io.ReadAll(resp.Body)
+```
+
+---
+
+## 📦 8. **`encoding/json` — JSON Handling**
+
+Used for encoding/decoding JSON data (like API input/output).
+
+### ✅ Convert Struct to JSON:
+
+```go
+jsonData, _ := json.Marshal(myStruct)
+```
+
+### ✅ Parse JSON to Struct:
+
+```go
+json.Unmarshal(jsonBytes, &myStruct)
+```
+
+---
+
+## 💥 9. **`errors` — Error Handling**
+
+To create custom error messages.
+
+### ✅ Create an error:
+
+```go
+import "errors"
+
+err := errors.New("something went wrong")
+```
+
+* Go prefers **explicit error handling** over try/catch.
+
+---
+
+## 🔒 10. **`log` — Logging**
+
+Used to log messages with timestamps and errors.
+
+### ✅ Basic Usage:
+
+```go
+log.Println("Starting the server...")
+log.Fatal("Fatal error!") // also exits the program
+```
+
+---
+
+## 🧰 Honorable Mentions
+
+| Package         | Purpose                                    |
+| --------------- | ------------------------------------------ |
+| `bytes`         | Working with byte slices                   |
+| `strconv`       | String ↔ Number conversions                |
+| `regexp`        | Regular expressions                        |
+| `flag`          | Command-line arguments                     |
+| `bufio`         | Buffered I/O (faster file reading/writing) |
+| `path/filepath` | Cross-platform file path manipulation      |
+
+---
+
+## 🧠 Summary Table
+
+| Category         | Package                     | Use Cases                    |
+| ---------------- | --------------------------- | ---------------------------- |
+| I/O              | `fmt`, `os`, `io`           | Input/output, file ops       |
+| Strings          | `strings`, `strconv`        | String & number manipulation |
+| Time             | `time`                      | Time, delays, formatting     |
+| Math             | `math`, `math/rand`         | Calculations, randomness     |
+| Web              | `net/http`, `html/template` | Web servers, templates       |
+| JSON             | `encoding/json`             | JSON encode/decode           |
+| Logging & Errors | `log`, `errors`             | Error handling & logging     |
+
+---
+
+In Go (Golang), **operators** are special symbols or keywords used to perform operations on variables and values. They're grouped by purpose:
+
+---
+
+## ✅ 1. **Arithmetic Operators**
+
+Used to perform basic math operations.
+
+| Operator | Description         | Example |
+| -------- | ------------------- | ------- |
+| `+`      | Addition            | `a + b` |
+| `-`      | Subtraction         | `a - b` |
+| `*`      | Multiplication      | `a * b` |
+| `/`      | Division            | `a / b` |
+| `%`      | Modulus (remainder) | `a % b` |
+
+### 🔸 Example:
+
+```go
+a := 10
+b := 3
+fmt.Println(a + b) // 13
+fmt.Println(a % b) // 1
+```
+
+---
+
+## ✅ 2. **Assignment Operators**
+
+Used to assign or update values of variables.
+
+| Operator | Description         | Example  |
+| -------- | ------------------- | -------- |
+| `=`      | Assign              | `a = b`  |
+| `+=`     | Add and assign      | `a += b` |
+| `-=`     | Subtract and assign | `a -= b` |
+| `*=`     | Multiply and assign | `a *= b` |
+| `/=`     | Divide and assign   | `a /= b` |
+| `%=`     | Modulus and assign  | `a %= b` |
+
+### 🔸 Example:
+
+```go
+a := 5
+a += 3 // a = 8
+```
+
+---
+
+## ✅ 3. **Comparison Operators**
+
+Used to compare two values and return a boolean (`true` or `false`).
+
+| Operator | Description      | Example  |
+| -------- | ---------------- | -------- |
+| `==`     | Equal to         | `a == b` |
+| `!=`     | Not equal to     | `a != b` |
+| `>`      | Greater than     | `a > b`  |
+| `<`      | Less than        | `a < b`  |
+| `>=`     | Greater or equal | `a >= b` |
+| `<=`     | Less or equal    | `a <= b` |
+
+### 🔸 Example:
+
+```go
+a := 10
+b := 20
+fmt.Println(a < b) // true
+```
+
+---
+
+## ✅ 4. **Logical Operators**
+
+Used to combine multiple boolean expressions.
+
+| Operator | Description             | Example           |                           |         |   |         |
+| -------- | ----------------------- | ----------------- | ------------------------- | ------- | - | ------- |
+| `&&`     | Logical AND (both true) | `a > 5 && b < 10` |                           |         |   |         |
+| \`       |                         | \`                | Logical OR (at least one) | \`a > 5 |   | b < 5\` |
+| `!`      | Logical NOT (negation)  | `!true` → false   |                           |         |   |         |
+
+### 🔸 Example:
+
+```go
+a := 8
+b := 3
+fmt.Println(a > 5 && b < 5) // true
+```
+
+---
+
+## ✅ 5. **Bitwise Operators**
+
+Operate at the binary level (often used in low-level programming).
+
+| Operator | Description         | Example  |     |     |
+| -------- | ------------------- | -------- | --- | --- |
+| `&`      | AND                 | `a & b`  |     |     |
+| \`       | \`                  | OR       | \`a | b\` |
+| `^`      | XOR                 | `a ^ b`  |     |     |
+| `&^`     | AND NOT (bit clear) | `a &^ b` |     |     |
+| `<<`     | Left shift          | `a << 1` |     |     |
+| `>>`     | Right shift         | `a >> 1` |     |     |
+
+### 🔸 Example:
+
+```go
+a := 5    // 0101
+b := 3    // 0011
+fmt.Println(a & b)  // 1  -> 0001
+fmt.Println(a | b)  // 7  -> 0111
+```
+
+---
+
+## ✅ 6. **Other Useful Operators**
+
+### 📌 Unary Operators:
+
+Used on a single operand.
+
+```go
+x := 10
+x++    // increment (not allowed directly in expression)
+x--    // decrement
+```
+
+⚠️ In Go, `x++` or `x--` must be **used alone**, not in expressions like `y = x++`.
+
+---
+
+## ✅ Summary Table
+
+| Category   | Operators                  | Examples            |                   |                   |
+| ---------- | -------------------------- | ------------------- | ----------------- | ----------------- |
+| Arithmetic | `+`, `-`, `*`, `/`, `%`    | `a + b`             |                   |                   |
+| Assignment | `=`, `+=`, `-=`, etc.      | `a += 2`            |                   |                   |
+| Comparison | `==`, `!=`, `>`, `<`, etc. | `a == b`, `a >= b`  |                   |                   |
+| Logical    | `&&`, \`                   |                     | `, `!\`           | `a > 5 && b < 10` |
+| Bitwise    | `&`, \`                    | `, `^`, `<<`, `>>\` | `a & b`, `a << 1` |                   |
+| Unary      | `++`, `--`                 | `x++`, `x--`        |                   |                   |
+
+---
+
+In Go (Golang), `=` and `==` look similar but serve **completely different purposes**:
+
+---
+
+## ✅ `=` (Single Equals) — **Assignment Operator**
+
+* Used to **assign a value** to a variable.
+* Stores the value on the **right** into the variable on the **left**.
+
+### 🔹 Syntax:
+
+```go
+a = 5
+```
+
+### 🔹 Meaning:
+
+"Set the value of `a` to 5."
+
+---
+
+## ✅ `==` (Double Equals) — **Equality Comparison Operator**
+
+* Used to **compare two values**.
+* Returns a **boolean value**: `true` if both sides are equal, `false` otherwise.
+
+### 🔹 Syntax:
+
+```go
+a == 5
+```
+
+### 🔹 Meaning:
+
+"Check if the value of `a` is equal to 5."
+
+---
+
+## ✅ Example: Difference in Action
 
 ```go
 package main
 
 import "fmt"
 
-const (
-    appName = "Prescripto"
-    version = "1.0.0"
-    isBeta  = true
-)
+func main() {
+    a := 5       // using '=' to assign value 5 to a
+    b := 10      // assigning 10 to b
 
-const (
-    Sunday = iota
-    Monday
-    Tuesday
-)
+    fmt.Println(a == b) // using '==' to compare a and b → false
+    fmt.Println(a = b)  // ❌ ERROR: this is NOT valid in print — '=' can't be used like that!
+}
+```
+
+✅ Correct way:
+
+```go
+a = b          // valid: assigns b’s value to a
+result := a == b  // valid: compares a and b
+```
+
+---
+
+## 🧠 TL;DR
+
+| Operator | Name                | Usage                     | Returns           |
+| -------- | ------------------- | ------------------------- | ----------------- |
+| `=`      | Assignment Operator | Assigns value to variable | Nothing           |
+| `==`     | Equality Operator   | Compares two values       | `true` or `false` |
+
+---
+
+
+Here’s a **tiny runnable Go program** that shows the difference between `=` (assignment) and `==` (comparison):
+
+---
+
+### ✅ Sample Go Program
+
+```go
+package main
+
+import "fmt"
 
 func main() {
-    fmt.Println("App:", appName, "Version:", version, "Beta:", isBeta)
-    fmt.Println("Days - Sunday:", Sunday, "Monday:", Monday, "Tuesday:", Tuesday)
+    // Assignment using =
+    a := 5
+    b := 10
+
+    fmt.Println("Initial values:")
+    fmt.Println("a =", a)
+    fmt.Println("b =", b)
+
+    // Comparison using ==
+    isEqual := a == b
+    fmt.Println("Is a equal to b?", isEqual) // false
+
+    // Assigning new value to a using =
+    a = b
+    fmt.Println("\nAfter assigning a = b")
+    fmt.Println("a =", a)
+    fmt.Println("b =", b)
+
+    // Now compare again
+    isEqual = a == b
+    fmt.Println("Is a equal to b now?", isEqual) // true
 }
 ```
 
 ---
 
-## ✅ Summary
+### ✅ Output:
 
-| Concept            | Key Point                              |
-| ------------------ | -------------------------------------- |
-| `const` keyword    | Declares a read-only value             |
-| Compile-time value | Must be known at compile-time          |
-| Typed/Untyped      | Go supports both                       |
-| Expressions        | Allowed (e.g., `width * height`)       |
-| `iota`             | Auto-increments values in const blocks |
+```
+Initial values:
+a = 5
+b = 10
+Is a equal to b? false
+
+After assigning a = b
+a = 10
+b = 10
+Is a equal to b now? true
+```
 
 ---
 
+This clearly shows:
+
+* `=` sets values,
+* `==` checks if two values are the same.
