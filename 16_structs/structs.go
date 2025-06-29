@@ -7,11 +7,17 @@ import (
 	"time"
 )
 
+type customer struct {
+	name string
+	phone string
+}
+
 type order struct{
 	id string
 	amount float32
 	status string
 	createdAt time.Time // A Time represents an instant in time with nanosecond precision.
+	customer // struct-embedding
 }
 
 // constructor fx (newStructName: convention)
@@ -40,7 +46,7 @@ func(o order) getAmount() float32{
 }
 
 func main(){
-
+    // COMPOSITION
 	language := struct {
 		name string
 		isGood bool
@@ -57,6 +63,29 @@ func main(){
 		status: "delivered",
 		createdAt: time.Now(),
 	}
+
+	// customer1:=customer{
+	// 	name: "Skyy",
+	// 	phone: "123456",
+	// }
+
+
+	// struct-embedding
+	order3 :=order{
+		id: "3",
+		amount: 50.66,
+		status: "received",
+		//inline embedding
+		customer: customer{
+			name: "Skyy",
+			phone: "123456",
+		},
+	}
+
+	order3.customer.name = "robin" //changing
+
+	fmt.Println(order3)
+	fmt.Println(order3.customer)
 
 	order1.createdAt = time.Now()
 	order1.amount = 44.66

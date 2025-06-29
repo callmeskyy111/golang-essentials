@@ -253,3 +253,229 @@ func (p *Product) ReduceStock(qty int) {
 * Stick with **explicit field names** (avoid anonymous fields for readability).
 
 ---
+
+Absolutely, Skyy! Let's dive deep into **struct embedding in Go**, one of the most important features for **composition over inheritance**.
+
+---
+
+## 🧱 What is Struct Embedding in Go?
+
+**Struct embedding** is a way to achieve **code reuse** and **composition** in Go.
+
+Instead of inheritance (like in OOP languages), Go **embeds** one struct into another, allowing the outer struct to **promote** the fields and methods of the embedded struct.
+
+> 🧠 Think of it as a "has-a" relationship, not "is-a".
+
+---
+
+## 🧪 Basic Syntax
+
+```go
+type Address struct {
+    City  string
+    State string
+}
+
+type Person struct {
+    Name string
+    Age  int
+    Address // Embedded (anonymous) field
+}
+```
+
+✅ Here, `Person` embeds `Address`.
+
+Now, you can access `Address` fields directly via `Person`:
+
+```go
+func main() {
+    p := Person{
+        Name: "Skyy",
+        Age:  29,
+        Address: Address{
+            City:  "Kolkata",
+            State: "West Bengal",
+        },
+    }
+
+    fmt.Println(p.City)  // Access promoted field from Address
+    fmt.Println(p.State) // Same
+}
+```
+
+---
+
+## 🔍 Behind the Scenes
+
+Under the hood, Go composes the fields like this:
+
+```go
+p.Address.City
+```
+
+But allows you to write it as:
+
+```go
+p.City
+```
+
+This is called **field promotion**.
+
+---
+
+## 🧑‍🔧 Embedded Struct Methods
+
+If the embedded struct has methods, they are **also promoted**.
+
+```go
+type Logger struct{}
+
+func (l Logger) Log(msg string) {
+    fmt.Println("LOG:", msg)
+}
+
+type Server struct {
+    Host string
+    Logger
+}
+
+func main() {
+    s := Server{Host: "localhost"}
+    s.Log("Server started") // Promoted method from Logger
+}
+```
+
+We can still access it explicitly with `s.Logger.Log(...)`.
+
+---
+
+## 🧠 Why Use Struct Embedding?
+
+| Goal                     | Explanation                                         |
+| ------------------------ | --------------------------------------------------- |
+| Composition              | Reuse logic and data without inheritance            |
+| Clean syntax             | Avoid boilerplate delegation                        |
+| Promote methods/fields   | Access embedded struct fields/methods directly      |
+| Interface implementation | Embedded structs help satisfy interfaces implicitly |
+
+---
+
+## 🔁 Named vs Anonymous Embedding
+
+### ✅ Anonymous Embedding
+
+```go
+type Engine struct {
+    Power int
+}
+
+type Car struct {
+    Engine
+}
+```
+
+We can use `c.Power`.
+
+### ❌ Named Field (No Promotion)
+
+```go
+type Car struct {
+    Engine Engine
+}
+```
+
+You must write `c.Engine.Power`.
+
+---
+
+## 🧱 Struct Embedding & Interfaces
+
+Embedding allows structs to **implicitly implement interfaces**.
+
+```go
+type Notifier interface {
+    Notify()
+}
+
+type BaseNotifier struct{}
+
+func (b BaseNotifier) Notify() {
+    fmt.Println("Notification sent!")
+}
+
+type User struct {
+    Name string
+    BaseNotifier
+}
+
+func main() {
+    var n Notifier = User{Name: "Skyy"}
+    n.Notify() // "Notification sent!"
+}
+```
+
+---
+
+## ⚠️ Shadowing with Embedded Fields
+
+If both embedded and outer structs have the same field/method name, the outer struct takes precedence:
+
+```go
+type A struct {
+    Name string
+}
+
+type B struct {
+    Name string
+    A
+}
+
+func main() {
+    b := B{ Name: "Outer", A: A{Name: "Inner"} }
+    fmt.Println(b.Name)   // Outer
+    fmt.Println(b.A.Name) // Inner
+}
+```
+
+---
+
+## 💡 Tip: Embedding Multiple Structs
+
+```go
+type Timestamps struct {
+    CreatedAt string
+    UpdatedAt string
+}
+
+type SoftDelete struct {
+    Deleted bool
+}
+
+type Product struct {
+    Name string
+    Timestamps
+    SoftDelete
+}
+```
+
+Now `Product` has all those fields *promoted*:
+
+```go
+p := Product{Name: "Book", CreatedAt: "Today"}
+fmt.Println(p.CreatedAt)
+fmt.Println(p.Deleted)
+```
+
+---
+
+## 📌 Summary
+
+| Concept                   | Description                                         |
+| ------------------------- | --------------------------------------------------- |
+| Anonymous embedding       | Promotes fields and methods to outer struct         |
+| Composition > Inheritance | Preferred pattern in Go                             |
+| Method promotion          | Allows outer struct to call inner struct methods    |
+| Field name conflict       | Outer struct's field overrides                      |
+| Interfaces                | Embedded structs help satisfy interfaces implicitly |
+
+---
