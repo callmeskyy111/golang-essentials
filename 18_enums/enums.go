@@ -18,7 +18,7 @@ const (
 type MyFavPokemons string
 
 const (
-	Noctowl MyFavPokemons ="Noctowl"
+	Noctowl MyFavPokemons="Noctowl"
 	Umbreon ="Umbreon"
 	Rapidash ="Rapidash"
 )

@@ -214,7 +214,7 @@ func (s Status) String() string {
 5. Validate enum values before use.
 
 ---
-# CODE-EXPLANATION
+# CODE-EXPLANATION 👨🏻‍💻
 
 Let’s walk through our code piece by piece. We're simulating **enums** in Go using **typed constants**, and it’s a great example showing both `int`-based and `string`-based enums in action — with a Pokémon theme! 🟡⚡
 
