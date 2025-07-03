@@ -1,5 +1,3 @@
-4129 4709 0639 5622, 05/30 cvv-220
-
 ### **What is GoLang?** 🔵
 
 Go (or GoLang) is an open-source, statically typed, compiled programming language developed by Google in 2007 and released in 2009. It was designed to improve productivity in software development, combining the performance of a compiled language with the simplicity and ease of use of dynamically typed languages.
