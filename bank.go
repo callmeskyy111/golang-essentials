@@ -1,12 +1,41 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"os"
+	"strconv"
+)
 
-// control structures, loops, switch-cases
+// control structures, loops, switch-cases, writing to Files, error-handling
+
+const accountBalanceFile = "balance.txt" // global-constant
+
+func readBalanceFromFile() (float64, error){
+	data, err := os.ReadFile(accountBalanceFile)
+	// err - file ("balance.txt") might not be present
+	if err != nil{
+		// any logic we want
+		return 1000.00, errors.New("file doesn't exist ⚠️")
+	}
+	balanceStr:= string(data)
+	balance,err := strconv.ParseFloat(balanceStr,64)
+	// err - Not everything can be parsed to a FLOAT (ex: "hello")
+	if err != nil{
+		// any logic we want
+		return 1000.00, errors.New("failed to parse stored balance ⚠️")
+	}
+	return balance,nil
+}
 
 func main(){
 
-var accBalance = 1000.0
+var accBalance, err = readBalanceFromFile()
+if err !=nil{
+	fmt.Println("ERROR:",err)
+	fmt.Println("----------------------")
+	panic("Exiting the process.. 🔴")
+}
 
 fmt.Println("WELCOME to GoBank 🏦!")
 
@@ -24,6 +53,7 @@ fmt.Println("WELCOME to GoBank 🏦!")
 	fmt.Print("Your choice: ")
 	fmt.Scan(&choice)
 
+
 // Switch - Alternative to if-else,if,else etc.	
 	switch choice{
 	case 1:
@@ -39,6 +69,9 @@ fmt.Println("WELCOME to GoBank 🏦!")
 		accBalance+=float64(depositAmt)
 		formattedBalance:= fmt.Sprintf("%.2f",accBalance)
 		fmt.Println("Deposited ✅.. Your updated account-balance: $",formattedBalance)
+		//writeBalanceToFile(accBalance)
+		//! Writing to file ✍🏻📂
+		os.WriteFile("balance.txt",[]byte(formattedBalance),0644 ) 
 	case 3:
 		fmt.Print("💰 How much do you wanna withdraw?: -$")
 		var withdrawAmt float64 // local scope
@@ -55,7 +88,7 @@ fmt.Println("WELCOME to GoBank 🏦!")
 		formattedBalance:= fmt.Sprintf("%.2f",accBalance)
 		fmt.Println("Amount withdrawn ✅.. Your updated account-balance: $",formattedBalance)
 	default:
-	fmt.Println("Good Day! Thanks for choosing GoBank")
+	fmt.Println("Exiting.. Thanks for choosing GoBank")
 	return
 	//break
 	}
