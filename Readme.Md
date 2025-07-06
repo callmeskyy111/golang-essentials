@@ -197,7 +197,7 @@ case 3:
 * Checks for sufficient balance
 * Updates balance
 
-⚠️ **Missing file update!** → You forgot to save new balance to `balance.txt` here. You should add:
+⚠️ **Missing file update!** → I forgot to save new balance to `balance.txt` here. We should add:
 
 ```go
 os.WriteFile("balance.txt", []byte(formattedBalance), 0644)
