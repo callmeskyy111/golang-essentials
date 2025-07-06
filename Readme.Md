@@ -1,6 +1,4 @@
 ## Additional, curated Reading-Material 📖👨🏻‍💻
-
-## CODE-EXPLANATION 💻
 Let's break down our Go code in `bank.go` in **clear sections**, so we understand **what each part does**, why it matters, and how Go concepts like **file handling**, **error handling**, **loops**, and **control structures** work together in this basic banking CLI app.
 
 ---
